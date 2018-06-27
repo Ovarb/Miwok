@@ -30,12 +30,16 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
+        //create a variable and save reference to TextView
         TextView buttonNumbers = (TextView) findViewById(R.id.numbers);
+        //assign Listener to the TextView. The Listener is declared as anonimous
+        //class implemented OnClickListener interface
         buttonNumbers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NumbersActivity.class);
-                startActivity(intent);
+                //Create a new intent to open the {@link FamilyActivity}
+                Intent numbersIntent = new Intent(MainActivity.this, NumbersActivity.class);
+                startActivity(numbersIntent);
             }
         });
 
@@ -43,8 +47,9 @@ public class MainActivity extends AppCompatActivity {
         buttonFamily.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, FamilyActivity.class);
-                startActivity(intent);
+                //Create a new intent to open the {@link FamilyActivity}
+                Intent familyIntent = new Intent(MainActivity.this, FamilyActivity.class);
+                startActivity(familyIntent);
             }
         });
 
@@ -52,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         buttonPhrases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PhrasesActivity.class);
-                startActivity(intent);
+                Intent buttonIntent = new Intent(MainActivity.this, PhrasesActivity.class);
+                startActivity(buttonIntent);
             }
         });
 
@@ -61,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         buttonColors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ColorsActivity.class);
-                startActivity(intent);
+                Intent colorsIntent = new Intent(MainActivity.this, ColorsActivity.class);
+                startActivity(colorsIntent);
             }
         });
     }
