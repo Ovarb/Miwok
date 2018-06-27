@@ -23,11 +23,6 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView buttonNumbers;
-    TextView buttonFamily;
-    TextView buttonPhrases;
-    TextView buttonColors;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
-        buttonNumbers = (TextView) findViewById(R.id.numbers);
-        buttonFamily = (TextView) findViewById(R.id.family);
-        buttonPhrases = (TextView) findViewById(R.id.phrases);
-        buttonColors = (TextView) findViewById(R.id.colors);
-
+        TextView buttonNumbers = (TextView) findViewById(R.id.numbers);
         buttonNumbers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TextView buttonFamily = (TextView) findViewById(R.id.family);
         buttonFamily.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TextView buttonPhrases = (TextView) findViewById(R.id.phrases);
         buttonPhrases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TextView buttonColors = (TextView) findViewById(R.id.colors);
         buttonColors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
