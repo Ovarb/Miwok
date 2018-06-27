@@ -1,0 +1,17 @@
+# Built application files
+/*/build/
+build/
+*.apk
+*.ap_
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Gradle generated files
+.gradle/
+/*/.gradle
+
+/.idea/workspace.xml
+/captures
+.externalNativeBuild
+*.iml
