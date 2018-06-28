@@ -15,6 +15,7 @@
  */
 package com.example.android.miwok;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,11 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView buttonNumbers;
+    TextView buttonFamily;
+    TextView buttonPhrases;
+    TextView buttonColors;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,45 +36,44 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
-        //create a variable and save reference to TextView
-        TextView buttonNumbers = (TextView) findViewById(R.id.numbers);
-        //assign Listener to the TextView. The Listener is declared as anonimous
-        //class implemented OnClickListener interface
-        buttonNumbers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Create a new intent to open the {@link FamilyActivity}
-                Intent numbersIntent = new Intent(MainActivity.this, NumbersActivity.class);
-                startActivity(numbersIntent);
-            }
-        });
+        buttonNumbers = (TextView) findViewById(R.id.numbers);
+        buttonFamily = (TextView) findViewById(R.id.family);
+        buttonPhrases = (TextView) findViewById(R.id.phrases);
+        buttonColors = (TextView) findViewById(R.id.colors);
 
-        TextView buttonFamily = (TextView) findViewById(R.id.family);
-        buttonFamily.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Create a new intent to open the {@link FamilyActivity}
-                Intent familyIntent = new Intent(MainActivity.this, FamilyActivity.class);
-                startActivity(familyIntent);
-            }
-        });
+//        Context context = this.getBaseContext();
+        Bundle bundle = new Bundle();
 
-        TextView buttonPhrases = (TextView) findViewById(R.id.phrases);
-        buttonPhrases.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent buttonIntent = new Intent(MainActivity.this, PhrasesActivity.class);
-                startActivity(buttonIntent);
-            }
-        });
+        MainActivityListener listener = new MainActivityListener(this, bundle);
 
-        TextView buttonColors = (TextView) findViewById(R.id.colors);
-        buttonColors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent colorsIntent = new Intent(MainActivity.this, ColorsActivity.class);
-                startActivity(colorsIntent);
-            }
-        });
+        buttonNumbers.setOnClickListener(listener);
+
+        buttonFamily.setOnClickListener(listener);
+        buttonPhrases.setOnClickListener(listener);
+        buttonColors.setOnClickListener(listener);
+
+//        buttonFamily.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, FamilyActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+//        buttonPhrases.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, PhrasesActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+//        buttonColors.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ColorsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 }
