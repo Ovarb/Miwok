@@ -23,6 +23,37 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public class MainActivityButtonListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+
+            int clickedButton = view.getId();
+
+            switch (clickedButton) {
+                case (R.id.numbers):
+                    //Create a new intent to open the {@link NumbersActivity}
+                    Intent numbersIntent = new Intent(MainActivity.this, NumbersActivity.class);
+                    startActivity(numbersIntent);
+                    break;
+                case (R.id.family):
+                    Intent familyIntent = new Intent(MainActivity.this, FamilyActivity.class);
+                    startActivity(familyIntent);
+                    break;
+                case (R.id.phrases):
+                    Intent phrasesIntent = new Intent(MainActivity.this, PhrasesActivity.class);
+                    startActivity(phrasesIntent);
+                    break;
+                case (R.id.colors):
+                    Intent colorsIntent = new Intent(MainActivity.this, ColorsActivity.class);
+                    startActivity(colorsIntent);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,45 +61,20 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
+        MainActivityButtonListener listener = new MainActivityButtonListener();
+
         //create a variable and save reference to TextView
+        //assign Listener to the TextView.
         TextView buttonNumbers = (TextView) findViewById(R.id.numbers);
-        //assign Listener to the TextView. The Listener is declared as anonimous
-        //class implemented OnClickListener interface
-        buttonNumbers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Create a new intent to open the {@link FamilyActivity}
-                Intent numbersIntent = new Intent(MainActivity.this, NumbersActivity.class);
-                startActivity(numbersIntent);
-            }
-        });
+        buttonNumbers.setOnClickListener(listener);
 
-        TextView buttonFamily = (TextView) findViewById(R.id.family);
-        buttonFamily.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Create a new intent to open the {@link FamilyActivity}
-                Intent familyIntent = new Intent(MainActivity.this, FamilyActivity.class);
-                startActivity(familyIntent);
-            }
-        });
+        TextView familyNumbers = (TextView) findViewById(R.id.family);
+        familyNumbers.setOnClickListener(listener);
 
-        TextView buttonPhrases = (TextView) findViewById(R.id.phrases);
-        buttonPhrases.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent buttonIntent = new Intent(MainActivity.this, PhrasesActivity.class);
-                startActivity(buttonIntent);
-            }
-        });
+        TextView phrasesNumbers = (TextView) findViewById(R.id.phrases);
+        phrasesNumbers.setOnClickListener(listener);
 
-        TextView buttonColors = (TextView) findViewById(R.id.colors);
-        buttonColors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent colorsIntent = new Intent(MainActivity.this, ColorsActivity.class);
-                startActivity(colorsIntent);
-            }
-        });
+        TextView colorsNumbers = (TextView) findViewById(R.id.colors);
+        colorsNumbers.setOnClickListener(listener);
     }
 }
