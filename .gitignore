@@ -1,8 +1,7 @@
-# Built application files
-/*/build/
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
 build/
-*.apk
-*.ap_
-
-# Local configuration file (sdk path, etc)
-local.properties
+/captures
