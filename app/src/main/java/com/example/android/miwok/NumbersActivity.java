@@ -37,5 +37,11 @@ public class NumbersActivity extends AppCompatActivity {
         //add new View in the parent View
         rootView.addView(wordView);
 
+        //create another new View element
+        TextView wordView2 = new TextView(this);
+        wordView2.setText(words.get(9));
+
+        //add new View in the parent View
+        rootView.addView(wordView2);
     }
 }
