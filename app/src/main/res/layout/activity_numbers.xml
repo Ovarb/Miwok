@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/rootView"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".NumbersActivity">
 
 </LinearLayout>
