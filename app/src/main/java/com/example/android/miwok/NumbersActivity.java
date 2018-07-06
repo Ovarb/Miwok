@@ -30,16 +30,18 @@ public class NumbersActivity extends AppCompatActivity {
         //find the parent View
         LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);
 
+        //create a variable to keep track of the current index position
         int index = 0;
         int arrayListLength = words.size();
         while (index < arrayListLength) {
 
-            //create new View element
+            //create new {@link textView} that displayed the word at index position element
             TextView wordView = new TextView(this);
             wordView.setText(words.get(index));
-            //add new View in the parent View
+            //add the View as a child to the rootView
             rootView.addView(wordView);
 
+            //update counter variable
             index++;
         }
 
