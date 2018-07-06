@@ -30,18 +30,24 @@ public class NumbersActivity extends AppCompatActivity {
         //find the parent View
         LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);
 
-        //create new View element
-        TextView wordView = new TextView(this);
-        wordView.setText(words.get(0));
+        int index = 0;
+        int arrayListLength = words.size();
+        while (index < arrayListLength) {
 
-        //add new View in the parent View
-        rootView.addView(wordView);
+            //create new View element
+            TextView wordView = new TextView(this);
+            wordView.setText(words.get(index));
+            //add new View in the parent View
+            rootView.addView(wordView);
 
-        //create another new View element
-        TextView wordView2 = new TextView(this);
-        wordView2.setText(words.get(9));
+            index++;
+        }
 
-        //add new View in the parent View
-        rootView.addView(wordView2);
+
+
+
+
+
+
     }
 }
