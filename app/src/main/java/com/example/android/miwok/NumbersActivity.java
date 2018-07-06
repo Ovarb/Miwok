@@ -25,6 +25,7 @@ public class NumbersActivity extends AppCompatActivity {
         words.add("nine");
         words.add("ten");
 
-        Log.i("NumberActivity", words.get(0));
+        Log.i("NumberActivity", "Word at index 0:" + words.get(0));
+        Log.i("NumberActivity", "Word at index 9:" + words.get(9));
     }
 }
