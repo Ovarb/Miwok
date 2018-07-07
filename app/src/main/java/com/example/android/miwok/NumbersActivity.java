@@ -31,7 +31,7 @@ public class NumbersActivity extends AppCompatActivity {
         LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);
 
         //create a variable to keep track of the current index position
-        int index = 0;
+        /*int index = 0;
         int arrayListLength = words.size();
         while (index < arrayListLength) {
 
@@ -43,6 +43,17 @@ public class NumbersActivity extends AppCompatActivity {
 
             //update counter variable
             index++;
+        }*/
+
+        int arrayListLength = words.size();
+
+        for (int i = 0; i < arrayListLength; i++) {
+
+            //create new {@link textView} that displayed the word at index position element
+            TextView wordView = new TextView(this);
+            wordView.setText(words.get(i));
+            //add the View as a child to the rootView
+            rootView.addView(wordView);
         }
 
 
