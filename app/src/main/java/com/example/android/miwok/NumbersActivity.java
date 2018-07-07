@@ -47,11 +47,11 @@ public class NumbersActivity extends AppCompatActivity {
 
         int arrayListLength = words.size();
 
-        for (int i = 0; i < arrayListLength; i++) {
+        for (int index = 0; index < arrayListLength; index++) {
 
             //create new {@link textView} that displayed the word at index position element
             TextView wordView = new TextView(this);
-            wordView.setText(words.get(i));
+            wordView.setText(words.get(index));
             //add the View as a child to the rootView
             rootView.addView(wordView);
         }
