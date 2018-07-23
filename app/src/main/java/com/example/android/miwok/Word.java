@@ -16,15 +16,37 @@ public class Word {
     /**image ID for the word */
     private int mImageResourceID;
 
+    /**create a new Word object */
     public Word() {
         mMiwokTranslation = "";
         mDefaultTranslation = "";
-        mImageResourceID = 0;
     }
 
+    /**create a new Word object
+     *
+     * @param defaultTranslation is the word in a language that the user is know (such as English)
+     *
+     * @param miwokTranslation is the word in Miwok language
+     *
+     * */
     public Word(String defaultTranslation, String miwokTranslation) {
         mMiwokTranslation = miwokTranslation;
         mDefaultTranslation = defaultTranslation;
+    }
+
+    /**create a new Word object
+     *
+     * @param defaultTranslation is the word in a language that the user is know (such as English)
+     *
+     * @param miwokTranslation is the word in Miwok language
+     *
+     * @param imageResourceID is the drawable resource ID for the image associated with the word
+     *
+     * */
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceID) {
+        mMiwokTranslation = miwokTranslation;
+        mDefaultTranslation = defaultTranslation;
+        mImageResourceID = imageResourceID;
     }
 
     /**
