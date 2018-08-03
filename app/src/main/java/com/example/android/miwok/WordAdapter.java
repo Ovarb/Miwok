@@ -94,7 +94,7 @@ public class WordAdapter extends ArrayAdapter {
         if (currentWord.hasImage()) {
             // Get the Image Resource ID from the current Word object and
             // set this ID on the item's ImageView
-            itemImageView.setImageResource(currentWord.getImageResourceID());
+            itemImageView.setImageResource(currentWord.getImageResourceId());
 
             //Make sure the image is visible
             itemImageView.setVisibility(View.VISIBLE);

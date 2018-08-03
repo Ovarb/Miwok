@@ -14,10 +14,13 @@ public class Word {
     private String mMiwokTranslation;
 
     /**image ID for the word */
-    private int mImageResourceID = NO_IMAGE_PROVIDED;
+    private int mImageResourceId = NO_IMAGE_PROVIDED;
 
     /**constant for NO IMAGE case*/
     private static final int NO_IMAGE_PROVIDED = -1;
+
+    /**audio ID for the word */
+    private int mAudioResourceId;
 
 
 
@@ -45,13 +48,31 @@ public class Word {
      *
      * @param miwokTranslation is the word in Miwok language
      *
-     * @param imageResourceID is the drawable resource ID for the image associated with the word
+     * @param imageResourceId is the drawable resource ID for the image associated with the word
      *
      * */
-    public Word(String defaultTranslation, String miwokTranslation, int imageResourceID) {
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId) {
         mMiwokTranslation = miwokTranslation;
         mDefaultTranslation = defaultTranslation;
-        mImageResourceID = imageResourceID;
+        mImageResourceId = imageResourceId;
+    }
+
+    /**create a new Word object
+     *
+     * @param defaultTranslation is the word in a language that the user is know (such as English)
+     *
+     * @param miwokTranslation is the word in Miwok language
+     *
+     * @param imageResourceId is the drawable resource ID for the image associated with the word
+     *
+     * @param audioResourceId is the audio resource ID for the audio associated to the word
+     *
+     * */
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int audioResourceId) {
+        mMiwokTranslation = miwokTranslation;
+        mDefaultTranslation = defaultTranslation;
+        mImageResourceId = imageResourceId;
+        mAudioResourceId = audioResourceId;
     }
 
     /**
@@ -71,17 +92,22 @@ public class Word {
     /**
      * Get the Image Resource ID.
      */
-    public int getImageResourceID() {
-        return this.mImageResourceID;
+    public int getImageResourceId() {
+        return this.mImageResourceId;
     }
 
     /**
      * Returns whether or not there is an image for this word.
      */
     public boolean hasImage() {
-        return this.mImageResourceID != NO_IMAGE_PROVIDED;
+        return this.mImageResourceId != NO_IMAGE_PROVIDED;
     }
 
-
+    /**
+     * Get the Audio Resource ID.
+     */
+    public int getAudioResourceId() {
+        return this.mAudioResourceId;
+    }
 
 }
