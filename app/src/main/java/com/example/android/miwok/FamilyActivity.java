@@ -51,9 +51,9 @@ public class FamilyActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(FamilyActivity.this, words.get(i).getDefaultTranslation(), Toast.LENGTH_SHORT).show();
-                mMediaPlayer = MediaPlayer.create(FamilyActivity.this, words.get(i).getAudioResourceId());
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Toast.makeText(FamilyActivity.this, words.get(position).getDefaultTranslation(), Toast.LENGTH_SHORT).show();
+                mMediaPlayer = MediaPlayer.create(FamilyActivity.this, words.get(position).getAudioResourceId());
                 mMediaPlayer.start();
             }
         });

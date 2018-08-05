@@ -51,9 +51,9 @@ public class PhrasesActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(PhrasesActivity.this, words.get(i).getDefaultTranslation(), Toast.LENGTH_SHORT).show();
-                mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, words.get(i).getAudioResourceId());
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Toast.makeText(PhrasesActivity.this, words.get(position).getDefaultTranslation(), Toast.LENGTH_SHORT).show();
+                mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, words.get(position).getAudioResourceId());
                 mMediaPlayer.start();
             }
         });
