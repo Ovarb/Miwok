@@ -50,12 +50,20 @@ public class PhrasesActivity extends AppCompatActivity {
         // 1 argument, which is the {@link ArrayAdapter} with the variable name itemsAdapter.
         listView.setAdapter(adapter);
 
+        //set a click listener to play the audio when the list item is clicked on
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                //DEBUG Toast message
                 Toast.makeText(PhrasesActivity.this, words.get(position).getDefaultTranslation(), Toast.LENGTH_SHORT).show();
+
+                //create and setup {@link MediaPlayer} for the audio resource associated with the current word
                 mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, words.get(position).getAudioResourceId());
+
+                //play audiofile
                 mMediaPlayer.start();
+
+                //DEBUG logging
                 Log.i("Debug", words.get(position).toString());
             }
         });
