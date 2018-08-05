@@ -22,39 +22,19 @@ public class Word {
     /**audio ID for the word */
     private int mAudioResourceId;
 
-
-
-    /**create a new Word object */
-    public Word() {
-        mMiwokTranslation = "";
-        mDefaultTranslation = "";
-    }
-
     /**create a new Word object
      *
      * @param defaultTranslation is the word in a language that the user is know (such as English)
      *
      * @param miwokTranslation is the word in Miwok language
      *
-     * */
-    public Word(String defaultTranslation, String miwokTranslation) {
-        mMiwokTranslation = miwokTranslation;
-        mDefaultTranslation = defaultTranslation;
-    }
-
-    /**create a new Word object
-     *
-     * @param defaultTranslation is the word in a language that the user is know (such as English)
-     *
-     * @param miwokTranslation is the word in Miwok language
-     *
-     * @param imageResourceId is the drawable resource ID for the image associated with the word
+     * @param audioResourceId is the audio resource ID for the audio associated to the word
      *
      * */
-    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId) {
+    public Word(String defaultTranslation, String miwokTranslation, int audioResourceId) {
         mMiwokTranslation = miwokTranslation;
         mDefaultTranslation = defaultTranslation;
-        mImageResourceId = imageResourceId;
+        mAudioResourceId = audioResourceId;
     }
 
     /**create a new Word object
@@ -73,6 +53,16 @@ public class Word {
         mDefaultTranslation = defaultTranslation;
         mImageResourceId = imageResourceId;
         mAudioResourceId = audioResourceId;
+    }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "mDefaultTranslation='" + mDefaultTranslation + '\'' +
+                ", mMiwokTranslation='" + mMiwokTranslation + '\'' +
+                ", mImageResourceId=" + mImageResourceId +
+                ", mAudioResourceId=" + mAudioResourceId +
+                '}';
     }
 
     /**
