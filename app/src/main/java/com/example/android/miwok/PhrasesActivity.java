@@ -15,6 +15,14 @@ public class PhrasesActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
 
+    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +76,7 @@ public class PhrasesActivity extends AppCompatActivity {
                 //DEBUG logging
                 Log.i("PhrasesActivity", "audiofile is playing" + words.get(position).toString());
 
-                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        releaseMediaPlayer();
-                    }
-                });
+                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
             }
         });
 
