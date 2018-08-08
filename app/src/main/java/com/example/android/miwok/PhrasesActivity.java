@@ -1,5 +1,7 @@
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,12 +15,36 @@ import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
 
+    private AudioManager mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+    private AudioManager.OnAudioFocusChangeListener mAFlistener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    mMediaPlayer.stop();
+                    releaseMediaPlayer();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    mMediaPlayer.pause();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    mMediaPlayer.pause();
+                    break;
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    mMediaPlayer.start();
+                    break;
+            }
+        }
+    };
+
+
     private MediaPlayer mMediaPlayer;
 
     private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
 
         @Override
         public void onCompletion(MediaPlayer mp) {
+            mAudioManager.abandonAudioFocus(mAFlistener);
             releaseMediaPlayer();
         }
     };
@@ -70,13 +96,19 @@ public class PhrasesActivity extends AppCompatActivity {
                 //create and setup {@link MediaPlayer} for the audio resource associated with the current word
                 mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, words.get(position).getAudioResourceId());
 
-                //play audiofile
-                mMediaPlayer.start();
+                // Request audio focus for playback
+                int result = mAudioManager.requestAudioFocus(mAFlistener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    //play audiofile
+                    mMediaPlayer.start();
 
-                //DEBUG logging
-                Log.i("PhrasesActivity", "audiofile is playing" + words.get(position).toString());
+                    //DEBUG logging
+                    Log.i("PhrasesActivity", "audiofile is playing" + words.get(position).toString());
 
-                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                    mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                }
+
+
             }
         });
 
