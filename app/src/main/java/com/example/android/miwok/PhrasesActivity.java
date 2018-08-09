@@ -15,28 +15,43 @@ import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
 
-    private AudioManager mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+    private AudioManager mAudioManager;
+
     private AudioManager.OnAudioFocusChangeListener mAFlistener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange) {
                 case AudioManager.AUDIOFOCUS_LOSS:
+
+                    Log.i("PhrasesActivity", "audiofocus lost");
+
                     mMediaPlayer.stop();
                     releaseMediaPlayer();
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+
+                    Log.i("PhrasesActivity", "audiofocus lost for a while");
                     mMediaPlayer.pause();
+
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+
+                    Log.i("PhrasesActivity", "audiofocus lost for a while but can be ducked");
                     mMediaPlayer.pause();
+
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
+
+                    Log.i("PhrasesActivity", "audiofocus is gained!");
                     mMediaPlayer.start();
                     break;
             }
         }
     };
 
+    //RESEARCH to be deleted
+    int quantityAudioPlayed = 0;
+    final int QUANTITY_OF_AUDIO = 4;
 
     private MediaPlayer mMediaPlayer;
 
@@ -44,7 +59,12 @@ public class PhrasesActivity extends AppCompatActivity {
 
         @Override
         public void onCompletion(MediaPlayer mp) {
-            mAudioManager.abandonAudioFocus(mAFlistener);
+
+            //RESEARCH to be deleted
+            if(QUANTITY_OF_AUDIO == quantityAudioPlayed) {
+                mAudioManager.abandonAudioFocus(mAFlistener);
+                quantityAudioPlayed = 0;
+            }
             releaseMediaPlayer();
         }
     };
@@ -65,6 +85,11 @@ public class PhrasesActivity extends AppCompatActivity {
         words.add(new Word("I’m coming.", "әәnәm", R.raw.phrase_im_coming));
         words.add(new Word("Let’s go.", "yoowutis", R.raw.phrase_lets_go));
         words.add(new Word("Come here.", "әnni'nem", R.raw.phrase_come_here));
+
+        mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+
+
+
 
         // Create an {@link ArrayAdapter}, whose data source is a list of Strings. The
         // adapter knows how to create layouts for each item in the list, using the
@@ -97,10 +122,13 @@ public class PhrasesActivity extends AppCompatActivity {
                 mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, words.get(position).getAudioResourceId());
 
                 // Request audio focus for playback
-                int result = mAudioManager.requestAudioFocus(mAFlistener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                int result = mAudioManager.requestAudioFocus(mAFlistener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     //play audiofile
                     mMediaPlayer.start();
+
+                    //RESEARCH to be deleted
+                    quantityAudioPlayed++;
 
                     //DEBUG logging
                     Log.i("PhrasesActivity", "audiofile is playing" + words.get(position).toString());
