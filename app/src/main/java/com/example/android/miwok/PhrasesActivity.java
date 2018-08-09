@@ -15,54 +15,59 @@ import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
 
-    private AudioManager mAudioManager;
-
+    /** Handles playback of all the sound files */
     private MediaPlayer mMediaPlayer;
 
-    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+    /** Handles audio focus when playings sound file */
+    private AudioManager mAudioManager;
 
+    /** This listener gets triggered when the {@link MediaPlayer} has completed playing the audio file */
+    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
             releaseMediaPlayer();
         }
     };
 
-    private AudioManager.OnAudioFocusChangeListener mAFlistener = new AudioManager.OnAudioFocusChangeListener() {
+    AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange) {
                 case AudioManager.AUDIOFOCUS_LOSS:
+                    //We have lost our audio focus and stop playback and clean up resources
                     Log.i("PhrasesActivity", "audiofocus lost");
-                    mMediaPlayer.stop();
                     releaseMediaPlayer();
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    //if another app interrupts our media player for short amount of time
+                    //we pause the audio file and rewind it to the beginning for repeating after audio focus will be returned
                     Log.i("PhrasesActivity", "audiofocus lost for a while");
                     mMediaPlayer.pause();
+                    mMediaPlayer.seekTo(0);
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    //if another app interrupts our media player for short amount of time
+                    //we pause the audio file and rewind it to the beginning for repeating after audio focus will be returned
                     Log.i("PhrasesActivity", "audiofocus lost for a while but can be ducked");
-                    duckVolume();
+                    mMediaPlayer.pause();
+                    mMediaPlayer.seekTo(0);
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
+                    //We have regained audio focus and can resume playback
                     Log.i("PhrasesActivity", "audiofocus is gained!");
-                    unduckVolume();
                     mMediaPlayer.start();
                     break;
             }
         }
     };
 
-    //RESEARCH to be deleted
-    int quantityAudioPlayed = 0;
-    final int QUANTITY_OF_AUDIO = 1;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
+
+        /** Create and setup the {@link AudioManager} to request audio focus */
+        mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 
         final ArrayList<Word> words = new ArrayList<>();
         words.add(new Word("Where are you going?", "minto wuksus", R.raw.phrase_where_are_you_going));
@@ -76,27 +81,27 @@ public class PhrasesActivity extends AppCompatActivity {
         words.add(new Word("Let’s go.", "yoowutis", R.raw.phrase_lets_go));
         words.add(new Word("Come here.", "әnni'nem", R.raw.phrase_come_here));
 
-        mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-
-
-
-
-        // Create an {@link ArrayAdapter}, whose data source is a list of Strings. The
-        // adapter knows how to create layouts for each item in the list, using the
-        // simple_list_item_1.xml layout resource defined in the Android framework.
-        // This list item layout contains a single {@link TextView}, which the adapter will set to
-        // display a single word.
+        /**
+         * Create an {@link ArrayAdapter}, whose data source is a list of Strings. The
+         * adapter knows how to create layouts for each item in the list, using the
+         * simple_list_item_1.xml layout resource defined in the Android framework.
+         * This list item layout contains a single {@link TextView}, which the adapter will set to
+         * display a single word.
+         */
         WordAdapter adapter = new WordAdapter(this, words, R.color.category_phrases);
 
-        // Find the {@link ListView} object in the view hierarchy of the {@link Activity}.
-        // There should be a {@link ListView} with the view ID called list, which is declared in the
-        // activity_numbers.xml layout file.
+        /**
+         * Find the {@link ListView} object in the view hierarchy of the {@link Activity}.
+         * There should be a {@link ListView} with the view ID called list, which is declared in the
+         * activity_numbers.xml layout file.
+         */
         ListView listView = (ListView) findViewById(R.id.list);
 
-        // Make the {@link ListView} use the {@link ArrayAdapter} we created above, so that the
-        // {@link ListView} will display list items for each word in the list of words.
-        // Do this by calling the setAdapter method on the {@link ListView} object and pass in
-        // 1 argument, which is the {@link ArrayAdapter} with the variable name itemsAdapter.
+        /** Make the {@link ListView} use the {@link ArrayAdapter} we created above, so that the
+         * {@link ListView} will display list items for each word in the list of words.
+         * Do this by calling the setAdapter method on the {@link ListView} object and pass in
+         * 1 argument, which is the {@link ArrayAdapter} with the variable name itemsAdapter.
+         */
         listView.setAdapter(adapter);
 
         //set a click listener to play the audio when the list item is clicked on
@@ -106,34 +111,35 @@ public class PhrasesActivity extends AppCompatActivity {
                 //DEBUG Toast message
                 Toast.makeText(PhrasesActivity.this, words.get(position).getDefaultTranslation(), Toast.LENGTH_SHORT).show();
 
+                //Release the media player if it currently exists because we are about to play a different sound file
                 releaseMediaPlayer();
 
-                //create and setup {@link MediaPlayer} for the audio resource associated with the current word
-                mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, words.get(position).getAudioResourceId());
-
                 // Request audio focus for playback
-                int result = mAudioManager.requestAudioFocus(mAFlistener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                        AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
                 Log.i("PhrasesActivity", "audiofocus is requested");
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
 
+                    //we have audio focus now
+
+                    //create and setup {@link MediaPlayer} for the audio resource associated with the current word
+                    mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, words.get(position).getAudioResourceId());
+
                     Log.i("PhrasesActivity", "audiofocus is granted");
 
-                    //play audiofile
+                    //Start the audio file
                     mMediaPlayer.start();
-
-                    //RESEARCH to be deleted
-                    quantityAudioPlayed++;
 
                     //DEBUG logging
                     Log.i("PhrasesActivity", "audiofile is playing" + words.get(position).toString());
 
+                    //Setup a listener on the media player, so that we can stop and release the media player
+                    // once the sound has finished playing
                     mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
                 }
-
-
             }
         });
-
     }
 
     @Override
@@ -143,34 +149,11 @@ public class PhrasesActivity extends AppCompatActivity {
     }
 
     /**
-     * Duck audio.
-     */
-    public void duckVolume() {
-        Log.i("PhrasesActivity", "volume is ducked");
-        mMediaPlayer.setVolume(0.3f, 0.3f);
-    }
-
-    /**
-     * Unduck audio.
-     */
-    public void unduckVolume() {
-        Log.i("PhrasesActivity", "volume is unDucked");
-        mMediaPlayer.setVolume(1f, 1f);
-    }
-
-    /**
      * Clean up the media player by releasing its resources.
      */
     private void releaseMediaPlayer() {
 
         Log.i("PhrasesActivity", "releaseMediaPlayer() is evoked");
-
-        //RESEARCH to be deleted
-        if(QUANTITY_OF_AUDIO == quantityAudioPlayed) {
-            mAudioManager.abandonAudioFocus(mAFlistener);
-            Log.i("PhrasesActivity", "audiofocus is abandon");
-            quantityAudioPlayed = 0;
-        }
 
         // If the media player is not null, then it may be currently playing a sound.
         if (mMediaPlayer != null) {
@@ -185,5 +168,10 @@ public class PhrasesActivity extends AppCompatActivity {
             // is not configured to play an audio file at the moment.
             mMediaPlayer = null;
         }
+
+        //Regardless of whether or not we were granted audio focus, abandon it. This also unregisters
+        //the OnAudioFocusChangeListener so we don't get anymore callbacks.
+        Log.i("PhrasesActivity", "audiofocus is abandon");
+        mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
     }
 }
