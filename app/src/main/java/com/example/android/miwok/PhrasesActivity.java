@@ -17,32 +17,36 @@ public class PhrasesActivity extends AppCompatActivity {
 
     private AudioManager mAudioManager;
 
+    private MediaPlayer mMediaPlayer;
+
+    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
+
     private AudioManager.OnAudioFocusChangeListener mAFlistener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange) {
                 case AudioManager.AUDIOFOCUS_LOSS:
-
                     Log.i("PhrasesActivity", "audiofocus lost");
-
                     mMediaPlayer.stop();
                     releaseMediaPlayer();
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-
                     Log.i("PhrasesActivity", "audiofocus lost for a while");
                     mMediaPlayer.pause();
-
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-
                     Log.i("PhrasesActivity", "audiofocus lost for a while but can be ducked");
-                    mMediaPlayer.pause();
-
+                    duckVolume();
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
-
                     Log.i("PhrasesActivity", "audiofocus is gained!");
+                    unduckVolume();
                     mMediaPlayer.start();
                     break;
             }
@@ -51,23 +55,9 @@ public class PhrasesActivity extends AppCompatActivity {
 
     //RESEARCH to be deleted
     int quantityAudioPlayed = 0;
-    final int QUANTITY_OF_AUDIO = 4;
+    final int QUANTITY_OF_AUDIO = 1;
 
-    private MediaPlayer mMediaPlayer;
 
-    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
-
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-
-            //RESEARCH to be deleted
-            if(QUANTITY_OF_AUDIO == quantityAudioPlayed) {
-                mAudioManager.abandonAudioFocus(mAFlistener);
-                quantityAudioPlayed = 0;
-            }
-            releaseMediaPlayer();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +113,11 @@ public class PhrasesActivity extends AppCompatActivity {
 
                 // Request audio focus for playback
                 int result = mAudioManager.requestAudioFocus(mAFlistener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+                Log.i("PhrasesActivity", "audiofocus is requested");
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+
+                    Log.i("PhrasesActivity", "audiofocus is granted");
+
                     //play audiofile
                     mMediaPlayer.start();
 
@@ -149,11 +143,34 @@ public class PhrasesActivity extends AppCompatActivity {
     }
 
     /**
+     * Duck audio.
+     */
+    public void duckVolume() {
+        Log.i("PhrasesActivity", "volume is ducked");
+        mMediaPlayer.setVolume(0.3f, 0.3f);
+    }
+
+    /**
+     * Unduck audio.
+     */
+    public void unduckVolume() {
+        Log.i("PhrasesActivity", "volume is unDucked");
+        mMediaPlayer.setVolume(1f, 1f);
+    }
+
+    /**
      * Clean up the media player by releasing its resources.
      */
     private void releaseMediaPlayer() {
 
         Log.i("PhrasesActivity", "releaseMediaPlayer() is evoked");
+
+        //RESEARCH to be deleted
+        if(QUANTITY_OF_AUDIO == quantityAudioPlayed) {
+            mAudioManager.abandonAudioFocus(mAFlistener);
+            Log.i("PhrasesActivity", "audiofocus is abandon");
+            quantityAudioPlayed = 0;
+        }
 
         // If the media player is not null, then it may be currently playing a sound.
         if (mMediaPlayer != null) {
