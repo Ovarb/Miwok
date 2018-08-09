@@ -15,6 +15,10 @@ import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
 
+    final String TAG_APP = "Miwok";
+    final String TAG_ACT = "PhrasesActivity";
+    final String TAG = TAG_APP + " " + TAG_ACT;
+
     /** Handles playback of all the sound files */
     private MediaPlayer mMediaPlayer;
 
@@ -35,26 +39,26 @@ public class PhrasesActivity extends AppCompatActivity {
             switch (focusChange) {
                 case AudioManager.AUDIOFOCUS_LOSS:
                     //We have lost our audio focus and stop playback and clean up resources
-                    Log.i("PhrasesActivity", "audiofocus lost");
+                    Log.i(TAG, "audiofocus lost");
                     releaseMediaPlayer();
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                     //if another app interrupts our media player for short amount of time
                     //we pause the audio file and rewind it to the beginning for repeating after audio focus will be returned
-                    Log.i("PhrasesActivity", "audiofocus lost for a while");
+                    Log.i(TAG, "audiofocus lost for a while");
                     mMediaPlayer.pause();
                     mMediaPlayer.seekTo(0);
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                     //if another app interrupts our media player for short amount of time
                     //we pause the audio file and rewind it to the beginning for repeating after audio focus will be returned
-                    Log.i("PhrasesActivity", "audiofocus lost for a while but can be ducked");
+                    Log.i(TAG, "audiofocus lost for a while but can be ducked");
                     mMediaPlayer.pause();
                     mMediaPlayer.seekTo(0);
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     //We have regained audio focus and can resume playback
-                    Log.i("PhrasesActivity", "audiofocus is gained!");
+                    Log.i(TAG, "audiofocus is gained!");
                     mMediaPlayer.start();
                     break;
             }
@@ -118,7 +122,7 @@ public class PhrasesActivity extends AppCompatActivity {
                 int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
                         AudioManager.STREAM_MUSIC,
                         AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-                Log.i("PhrasesActivity", "audiofocus is requested");
+                Log.i(TAG, "audiofocus is requested");
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
 
                     //we have audio focus now
@@ -126,13 +130,13 @@ public class PhrasesActivity extends AppCompatActivity {
                     //create and setup {@link MediaPlayer} for the audio resource associated with the current word
                     mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, words.get(position).getAudioResourceId());
 
-                    Log.i("PhrasesActivity", "audiofocus is granted");
+                    Log.i(TAG, "audiofocus is granted");
 
                     //Start the audio file
                     mMediaPlayer.start();
 
                     //DEBUG logging
-                    Log.i("PhrasesActivity", "audiofile is playing" + words.get(position).toString());
+                    Log.i(TAG, "audiofile is playing" + words.get(position).toString());
 
                     //Setup a listener on the media player, so that we can stop and release the media player
                     // once the sound has finished playing
@@ -153,7 +157,7 @@ public class PhrasesActivity extends AppCompatActivity {
      */
     private void releaseMediaPlayer() {
 
-        Log.i("PhrasesActivity", "releaseMediaPlayer() is evoked");
+        Log.i(TAG, "releaseMediaPlayer() is evoked");
 
         // If the media player is not null, then it may be currently playing a sound.
         if (mMediaPlayer != null) {
@@ -161,7 +165,7 @@ public class PhrasesActivity extends AppCompatActivity {
             // because we no longer need it.
             mMediaPlayer.release();
 
-            Log.i("PhrasesActivity", "mMediaPlayer is released");
+            Log.i(TAG, "mMediaPlayer is released");
 
             // Set the media player back to null. For our code, we've decided that
             // setting the media player to null is an easy way to tell that the media player
@@ -171,7 +175,7 @@ public class PhrasesActivity extends AppCompatActivity {
 
         //Regardless of whether or not we were granted audio focus, abandon it. This also unregisters
         //the OnAudioFocusChangeListener so we don't get anymore callbacks.
-        Log.i("PhrasesActivity", "audiofocus is abandon");
+        Log.i(TAG, "audiofocus is abandon");
         mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
     }
 }
