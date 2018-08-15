@@ -22,7 +22,6 @@ import java.util.ArrayList;
  */
 public class PhrasesFragment extends Fragment {
 
-
     public PhrasesFragment() {
         // Required empty public constructor
     }
@@ -164,7 +163,7 @@ public class PhrasesFragment extends Fragment {
 
     /**
      * Called when the Fragment is no longer started.  This is generally
-     * tied to {@link Activity#onStop() Activity.onStop} of the containing
+     * tied to {@link android.app.Activity#onStop() Activity.onStop} of the containing
      * Activity's lifecycle.
      */
     @Override
