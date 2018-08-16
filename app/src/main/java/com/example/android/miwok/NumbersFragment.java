@@ -76,7 +76,6 @@ public class NumbersFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -162,7 +161,7 @@ public class NumbersFragment extends Fragment {
 
     /**
      * Called when the Fragment is no longer started.  This is generally
-     * tied to {@link Activity#onStop() Activity.onStop} of the containing
+     * tied to {@link android.app.Activity#onStop() Activity.onStop} of the containing
      * Activity's lifecycle.
      */
     @Override

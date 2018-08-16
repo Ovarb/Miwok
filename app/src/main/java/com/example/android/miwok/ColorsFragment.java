@@ -154,7 +154,7 @@ public class ColorsFragment extends Fragment {
 
     /**
      * Called when the Fragment is no longer started.  This is generally
-     * tied to {@link Activity#onStop() Activity.onStop} of the containing
+     * tied to {@link android.app.Activity#onStop() Activity.onStop()} of the containing
      * Activity's lifecycle.
      */
     @Override
@@ -189,5 +189,4 @@ public class ColorsFragment extends Fragment {
         Log.i(TAG, "audiofocus is abandon");
         mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
     }
-
 }

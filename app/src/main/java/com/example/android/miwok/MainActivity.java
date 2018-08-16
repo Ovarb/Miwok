@@ -17,6 +17,7 @@ package com.example.android.miwok;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,46 +32,13 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
-        //create a variable and save reference to TextView
-        TextView buttonNumbers = (TextView) findViewById(R.id.numbers);
-        //assign Listener to the TextView. The Listener is declared as anonimous
-        //class implemented OnClickListener interface
-        buttonNumbers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Create a new intent to open the {@link FamilyActivity}
-                Intent numbersIntent = new Intent(MainActivity.this, NumbersActivity.class);
-                startActivity(numbersIntent);
-            }
-        });
+        // Find the view pager that will allow the user to swipe between fragments
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        TextView buttonFamily = (TextView) findViewById(R.id.family);
+        // Create an adapter that knows which fragment should be shown on each page
+        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
 
-        buttonFamily.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Create a new intent to open the {@link FamilyActivity}
-                Intent familyIntent = new Intent(MainActivity.this, FamilyActivity.class);
-                startActivity(familyIntent);
-            }
-        });
-
-        TextView buttonPhrases = (TextView) findViewById(R.id.phrases);
-        buttonPhrases.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent buttonIntent = new Intent(MainActivity.this, PhrasesActivity.class);
-                startActivity(buttonIntent);
-            }
-        });
-
-        TextView buttonColors = (TextView) findViewById(R.id.colors);
-        buttonColors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent colorsIntent = new Intent(MainActivity.this, ColorsActivity.class);
-                startActivity(colorsIntent);
-            }
-        });
+        // Set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
     }
 }
