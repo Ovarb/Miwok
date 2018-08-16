@@ -35,4 +35,26 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 4;
     }
+
+    /**
+     * This method may be called by the ViewPager to obtain a title string
+     * to describe the specified page. This method may return null
+     * indicating no title for this page. The default implementation returns
+     * null.
+     *
+     * @param position The position of the title requested
+     * @return A title for the requested page
+     */
+    @Override
+    public CharSequence getPageTitle(int position) {
+        if (position == 0) {
+            return "Numbers";
+        } else if (position == 1) {
+            return "Family";
+        } else if (position == 2) {
+            return "Colors";
+        } else {
+            return "Phrases";
+        }
+    }
 }
