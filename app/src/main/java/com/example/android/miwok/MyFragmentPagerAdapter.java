@@ -5,11 +5,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+
+/**
+ * {@link MyFragmentPagerAdapter} is a {@link FragmentPagerAdapter} that can provide the layout for
+ * each list item based on a data source which is a list of {@link Word} objects.
+ */
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     final int PAGE_COUNT = 4;
+
+    /** Context of the app */
     private Context mContext;
 
+
+    /**
+     * Create a new {@link MyFragmentPagerAdapter} object
+     * @param fm is the fragment manager that will keep each fragment's state in the adapter across swipes
+     * @param context is the context of the App
+     */
 
     public MyFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -63,4 +76,6 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
             return mContext.getResources().getString(R.string.category_phrases);
         }
     }
+
+
 }
